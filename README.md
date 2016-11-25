@@ -13,7 +13,7 @@ Where `xyz` is the 3-character language code.
 
 This works like crap on wifi.  Use only on a wired connection.
 
-This will download each page (chapter) and save as a HTML files in `./html/xyz/...`.
+This will download each page (chapter) and save as HTML files in `./html/xyz/...`.
 
 
 ## Process
