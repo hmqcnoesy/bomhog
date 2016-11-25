@@ -45,7 +45,7 @@ fs.readFile(path.join(readDir, 'welcome', '1.json'), function(error, data) {
 		if (json.nextAbbr != 'bofm-title') logError('Expected bofm-title as nextAbbr in welcome.json, found ' + json.nextAbbr);
 		if (json.prevNo != 1) logError('Expected 1 as prevNo in welcome.json, found ' + json.prevNo);
 		if (json.nextNo != 1) logError('Expected 1 as nextNo in welcome.json, found ' + json.nextNo);
-		if (!json.verses || json.verses.length != 4) logError('Expected 4 verses in welcome.json, found ' + (json.verses ? json.verses.length : '?'));
+		if (!json.verses || json.verses.length != 5) logError('Expected 5 verses in welcome.json, found ' + (json.verses ? json.verses.length : '?'));
 		logSuccess('Verified welcome/1.json');
 	} else {
 		logError(error);

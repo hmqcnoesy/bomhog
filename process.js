@@ -50,7 +50,7 @@ titlePage.chapterTitle = $('h1 .dominant').text();
 titlePage.verses = [];
 titlePage.verses.push({ txt: $('#primary .subtitle').text(), isHeader: true });
 
-$('#0 p').each(function() {
+$('#0 p,#0 div.closingBlock').each(function() {
 	verse = { txt: $(this).text().replace(/\s+/g, ' ').trim() };
 	titlePage.verses.push(verse);
 });	
@@ -73,7 +73,7 @@ var introPage = {
 };
 
 vNo = 1;
-$('#0').find('p,div>h2,.signature,.smallCaps').each(function() {
+$('#0').find('p,div>h2,div.signature,div.smallCaps').each(function() {
 	if ($(this).text().trim()) {
 		if ((vNo == 12 || vNo == 17) && ['spa','kor','zho'].indexOf(language) > -1) {
 			// a few languages have all signatures in the same element, using <br> to separate
@@ -82,38 +82,37 @@ $('#0').find('p,div>h2,.signature,.smallCaps').each(function() {
 				introPage.verses.push({ txt: split[i].replace(/\s+/g, ' ').trim() });
 				vNo++;
 			}
-		} else if ($(this).find('.signature,.smallCaps').length == 0) {
+		} else {
+//		} else if ($(this).find('.signature,.smallCaps').length == 0) {
 			introPage.verses.push({ txt:$(this).text().replace(/\s+/g, ' ').trim()});
 			vNo++;
 		}
 	}
 });
 		
-// these languages keep additional intro info separated
-if (['chk','eng','hin','kos','mah','pes','por','xho','zul'].indexOf(language) > -1) {
-	var three = fs.readFileSync(path.join(readDir, 'three', '1.html'), {encoding: 'utf-8'});
-	$ = cheerio.load(three);
-	introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
-	introPage.verses.push({ txt: $('#0 p:first-child').text().replace(/\s+/g, ' ').trim() });
-	$('#0 div.signature').each(function() {
-		introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
-	});
-			
-	var eight = fs.readFileSync(path.join(readDir, 'eight', '1.html'), {encoding: 'utf-8'});
-	$ = cheerio.load(eight);
-	introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
-	introPage.verses.push({ txt: $('#0 p:first-child').text().replace(/\s+/g, ' ').trim() });
-	$('#0 div.signature').each(function() {
-		introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
-	});
-	
-	var js = fs.readFileSync(path.join(readDir, 'js', '1.html'), {encoding: 'utf-8'});
-	$ = cheerio.load(js);
-	introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
-	$('#0 > p').each(function() {
-		introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
-	});
-}
+
+var three = fs.readFileSync(path.join(readDir, 'three', '1.html'), {encoding: 'utf-8'});
+$ = cheerio.load(three);
+introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
+introPage.verses.push({ txt: $('#0 p:first-child').text().replace(/\s+/g, ' ').trim() });
+$('#0 div.signature').each(function() {
+	introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
+});
+		
+var eight = fs.readFileSync(path.join(readDir, 'eight', '1.html'), {encoding: 'utf-8'});
+$ = cheerio.load(eight);
+introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
+introPage.verses.push({ txt: $('#0 p:first-child').text().replace(/\s+/g, ' ').trim() });
+$('#0 div.signature').each(function() {
+	introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
+});
+
+var js = fs.readFileSync(path.join(readDir, 'js', '1.html'), {encoding: 'utf-8'});
+$ = cheerio.load(js);
+introPage.verses.push({ txt: $('h1').text().replace(/\s+/g, ' ').trim() });
+$('#0 > p').each(function() {
+	introPage.verses.push({ txt: $(this).text().replace(/\s+/g, ' ').trim() });
+});
 	
 fileWriter('json', language, 'introduction', '1.json', JSON.stringify(introPage));
 
